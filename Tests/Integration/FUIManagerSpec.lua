@@ -1,8 +1,8 @@
 local FTestHelper = require("Tests.TestHelper")
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 local FFakePlatformBridge = require("Tests.Fixtures.FFakePlatformBridge")
-local FUnrealRuntime = require("LuaUIFramework.Adapters.Unreal.FUnrealRuntime")
-local FUIManager = require("LuaUIFramework.Shared.Core.FUIManager")
+local FUnrealRuntime = require("FLuaFramework.Adapters.Unreal.FUnrealRuntime")
+local FUIManager = require("FLuaFramework.Shared.Core.FUIManager")
 
 local function presenter_module(events)
     local FakePresenter = Class("FakePresenter")

@@ -1,7 +1,7 @@
 local FTestHelper = require("Tests.TestHelper")
 
 FTestHelper:test("register exposes every framework module as a global", function()
-    local registered = require("LuaUIFramework.register")
+    local registered = require("FLuaFramework.register")
     local expected_names = {
         "FClass", "FError", "FBasePresenter", "FLifecycle", "FUIManager",
         "FIWidget", "FIText", "FIButton", "FIImage", "FIView",
@@ -16,7 +16,7 @@ FTestHelper:test("register exposes every framework module as a global", function
 end)
 
 FTestHelper:test("register returns the same table when required twice", function()
-    local first = require("LuaUIFramework.register")
-    local second = require("LuaUIFramework.register")
+    local first = require("FLuaFramework.register")
+    local second = require("FLuaFramework.register")
     FTestHelper:assert_equal(first, second)
 end)

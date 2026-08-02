@@ -31,7 +31,7 @@ Login 最小示例使用 `open("LoginPanel", { account = ... })` 传入账号，
 计划结束后的目录职责如下：
 
 ```text
-LuaUIFramework/
+FLuaFramework/
 ├─ Shared/
 │  ├─ Contracts/
 │  │  ├─ FIWidget.lua          # 控件有效性与显隐基础行为
@@ -120,8 +120,8 @@ Expected: 非零退出，错误包含 `cannot open Tests/Unit/FLifecycleSpec.lua
 **Files:**
 - Create: `Tests/Unit/FLifecycleSpec.lua`
 - Create: `Tests/Unit/FBasePresenterSpec.lua`
-- Create: `LuaUIFramework/Shared/Core/FLifecycle.lua`
-- Create: `LuaUIFramework/Shared/Core/FBasePresenter.lua`
+- Create: `FLuaFramework/Shared/Core/FLifecycle.lua`
+- Create: `FLuaFramework/Shared/Core/FBasePresenter.lua`
 
 - [ ] **Step 1: 写生命周期失败测试**
 
@@ -129,7 +129,7 @@ Expected: 非零退出，错误包含 `cannot open Tests/Unit/FLifecycleSpec.lua
 
 ```lua
 local FTestHelper = require("Tests.TestHelper")
-local FLifecycle = require("LuaUIFramework.Shared.Core.FLifecycle")
+local FLifecycle = require("FLuaFramework.Shared.Core.FLifecycle")
 
 FTestHelper:test("lifecycle follows the page open and destroy path", function()
     local lifecycle = FLifecycle.new()
@@ -165,14 +165,14 @@ end)
 
 Run: `node_modules/.bin/fengari Tests/Unit/FLifecycleSpec.lua`
 
-Expected: 非零退出，错误包含 `module 'LuaUIFramework.Shared.Core.FLifecycle' not found`。
+Expected: 非零退出，错误包含 `module 'FLuaFramework.Shared.Core.FLifecycle' not found`。
 
 - [ ] **Step 3: 写生命周期最小实现**
 
-创建 `LuaUIFramework/Shared/Core/FLifecycle.lua`：
+创建 `FLuaFramework/Shared/Core/FLifecycle.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
+local FError = require("FLuaFramework.Shared.Core.FError")
 
 local FLifecycle = {}
 FLifecycle.__index = FLifecycle
@@ -216,7 +216,7 @@ return FLifecycle
 
 ```lua
 local FTestHelper = require("Tests.TestHelper")
-local FBasePresenter = require("LuaUIFramework.Shared.Core.FBasePresenter")
+local FBasePresenter = require("FLuaFramework.Shared.Core.FBasePresenter")
 
 FTestHelper:test("presenter unbind releases every tracked subscription once", function()
     local presenter = FBasePresenter.new()
@@ -241,10 +241,10 @@ end)
 
 - [ ] **Step 5: 写 Presenter 最小实现**
 
-创建 `LuaUIFramework/Shared/Core/FBasePresenter.lua`：
+创建 `FLuaFramework/Shared/Core/FBasePresenter.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
+local FError = require("FLuaFramework.Shared.Core.FError")
 
 local FBasePresenter = {}
 FBasePresenter.__index = FBasePresenter
@@ -307,12 +307,12 @@ Expected: 退出码为 0，无输出。
 
 **Files:**
 - Create: `Tests/Unit/FViewBinderSpec.lua`
-- Create: `LuaUIFramework/Shared/Contracts/FIWidget.lua`
-- Create: `LuaUIFramework/Shared/Contracts/FIText.lua`
-- Create: `LuaUIFramework/Shared/Contracts/FIButton.lua`
-- Create: `LuaUIFramework/Shared/Contracts/FIImage.lua`
-- Create: `LuaUIFramework/Shared/Contracts/FIView.lua`
-- Create: `LuaUIFramework/Adapters/Common/FViewBinder.lua`
+- Create: `FLuaFramework/Shared/Contracts/FIWidget.lua`
+- Create: `FLuaFramework/Shared/Contracts/FIText.lua`
+- Create: `FLuaFramework/Shared/Contracts/FIButton.lua`
+- Create: `FLuaFramework/Shared/Contracts/FIImage.lua`
+- Create: `FLuaFramework/Shared/Contracts/FIView.lua`
+- Create: `FLuaFramework/Adapters/Common/FViewBinder.lua`
 
 - [ ] **Step 1: 写缺失绑定、类型错误和已销毁对象的失败测试**
 
@@ -320,7 +320,7 @@ Expected: 退出码为 0，无输出。
 
 ```lua
 local FTestHelper = require("Tests.TestHelper")
-local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
+local FViewBinder = require("FLuaFramework.Adapters.Common.FViewBinder")
 
 local function make_bridge(bindings)
     return {
@@ -400,14 +400,14 @@ end)
 
 Run: `node_modules/.bin/fengari Tests/Unit/FViewBinderSpec.lua`
 
-Expected: 非零退出，错误包含 `module 'LuaUIFramework.Adapters.Common.FViewBinder' not found`。
+Expected: 非零退出，错误包含 `module 'FLuaFramework.Adapters.Common.FViewBinder' not found`。
 
 - [ ] **Step 3: 实现基础控件及三个专用控件**
 
-创建 `LuaUIFramework/Shared/Contracts/FIWidget.lua`：
+创建 `FLuaFramework/Shared/Contracts/FIWidget.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
+local FError = require("FLuaFramework.Shared.Core.FError")
 local FIWidget = {}
 FIWidget.__index = FIWidget
 
@@ -429,10 +429,10 @@ end
 return FIWidget
 ```
 
-创建 `LuaUIFramework/Shared/Contracts/FIText.lua`：
+创建 `FLuaFramework/Shared/Contracts/FIText.lua`：
 
 ```lua
-local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
+local FIWidget = require("FLuaFramework.Shared.Contracts.FIWidget")
 local FIText = {}
 FIText.__index = FIText
 setmetatable(FIText, { __index = FIWidget })
@@ -454,10 +454,10 @@ end
 return FIText
 ```
 
-创建 `LuaUIFramework/Shared/Contracts/FIButton.lua`：
+创建 `FLuaFramework/Shared/Contracts/FIButton.lua`：
 
 ```lua
-local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
+local FIWidget = require("FLuaFramework.Shared.Contracts.FIWidget")
 local FIButton = {}
 FIButton.__index = FIButton
 setmetatable(FIButton, { __index = FIWidget })
@@ -474,10 +474,10 @@ end
 return FIButton
 ```
 
-创建 `LuaUIFramework/Shared/Contracts/FIImage.lua`：
+创建 `FLuaFramework/Shared/Contracts/FIImage.lua`：
 
 ```lua
-local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
+local FIWidget = require("FLuaFramework.Shared.Contracts.FIWidget")
 local FIImage = {}
 FIImage.__index = FIImage
 setmetatable(FIImage, { __index = FIWidget })
@@ -496,10 +496,10 @@ return FIImage
 
 - [ ] **Step 4: 实现 View 的类型安全访问与销毁语义**
 
-创建 `LuaUIFramework/Shared/Contracts/FIView.lua`：
+创建 `FLuaFramework/Shared/Contracts/FIView.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
+local FError = require("FLuaFramework.Shared.Core.FError")
 local FIView = {}
 FIView.__index = FIView
 
@@ -555,14 +555,14 @@ return FIView
 
 - [ ] **Step 5: 实现声明绑定与启动校验**
 
-创建 `LuaUIFramework/Adapters/Common/FViewBinder.lua`：
+创建 `FLuaFramework/Adapters/Common/FViewBinder.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FIText = require("LuaUIFramework.Shared.Contracts.FIText")
-local FIButton = require("LuaUIFramework.Shared.Contracts.FIButton")
-local FIImage = require("LuaUIFramework.Shared.Contracts.FIImage")
-local FIView = require("LuaUIFramework.Shared.Contracts.FIView")
+local FError = require("FLuaFramework.Shared.Core.FError")
+local FIText = require("FLuaFramework.Shared.Contracts.FIText")
+local FIButton = require("FLuaFramework.Shared.Contracts.FIButton")
+local FIImage = require("FLuaFramework.Shared.Contracts.FIImage")
+local FIView = require("FLuaFramework.Shared.Contracts.FIView")
 
 local FViewBinder = {}
 local factories = { Text = FIText.new, Button = FIButton.new, Image = FIImage.new }
@@ -604,8 +604,8 @@ Expected: 退出码为 0，无输出。
 **Files:**
 - Create: `Tests/Fixtures/FFakePlatformBridge.lua`
 - Create: `Tests/Contract/FRuntimeContractSpec.lua`
-- Create: `LuaUIFramework/Adapters/Unreal/FUnrealRuntime.lua`
-- Create: `LuaUIFramework/Adapters/Unity/FUnityRuntime.lua`
+- Create: `FLuaFramework/Adapters/Unreal/FUnrealRuntime.lua`
+- Create: `FLuaFramework/Adapters/Unity/FUnityRuntime.lua`
 
 - [ ] **Step 1: 创建可控异步加载和原生控件行为的测试桥接器**
 
@@ -706,8 +706,8 @@ return FFakePlatformBridge
 ```lua
 local FTestHelper = require("Tests.TestHelper")
 local FFakePlatformBridge = require("Tests.Fixtures.FFakePlatformBridge")
-local FUnrealRuntime = require("LuaUIFramework.Adapters.Unreal.FUnrealRuntime")
-local FUnityRuntime = require("LuaUIFramework.Adapters.Unity.FUnityRuntime")
+local FUnrealRuntime = require("FLuaFramework.Adapters.Unreal.FUnrealRuntime")
+local FUnityRuntime = require("FLuaFramework.Adapters.Unity.FUnityRuntime")
 
 local cases = {
     { platform = "unreal", runtime = FUnrealRuntime, bridge = "as_unreal" },
@@ -737,14 +737,14 @@ end
 
 Run: `node_modules/.bin/fengari Tests/Contract/FRuntimeContractSpec.lua`
 
-Expected: 非零退出，错误包含 `module 'LuaUIFramework.Adapters.Unreal.FUnrealRuntime' not found`。
+Expected: 非零退出，错误包含 `module 'FLuaFramework.Adapters.Unreal.FUnrealRuntime' not found`。
 
 - [ ] **Step 4: 实现 Unreal Runtime 归一化层**
 
-创建 `LuaUIFramework/Adapters/Unreal/FUnrealRuntime.lua`：
+创建 `FLuaFramework/Adapters/Unreal/FUnrealRuntime.lua`：
 
 ```lua
-local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
+local FViewBinder = require("FLuaFramework.Adapters.Common.FViewBinder")
 local FUnrealRuntime = {}
 FUnrealRuntime.__index = FUnrealRuntime
 
@@ -773,10 +773,10 @@ return FUnrealRuntime
 
 - [ ] **Step 5: 实现 Unity Runtime 归一化层**
 
-创建 `LuaUIFramework/Adapters/Unity/FUnityRuntime.lua`：
+创建 `FLuaFramework/Adapters/Unity/FUnityRuntime.lua`：
 
 ```lua
-local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
+local FViewBinder = require("FLuaFramework.Adapters.Common.FViewBinder")
 local FUnityRuntime = {}
 FUnityRuntime.__index = FUnityRuntime
 
@@ -811,17 +811,17 @@ Expected: 退出码为 0，无输出。
 
 **Files:**
 - Create: `Tests/Integration/FUIManagerSpec.lua`
-- Create: `LuaUIFramework/Shared/Core/FUIManager.lua`
-- Create: `LuaUIFramework/Config/FPages.lua`
+- Create: `FLuaFramework/Shared/Core/FUIManager.lua`
+- Create: `FLuaFramework/Config/FPages.lua`
 
 - [ ] **Step 1: 创建阶段一页面注册表**
 
-创建 `LuaUIFramework/Config/FPages.lua`：
+创建 `FLuaFramework/Config/FPages.lua`：
 
 ```lua
 return {
     LoginPanel = {
-        presenter = "LuaUIFramework.App.UI.Login.LoginPresenter",
+        presenter = "FLuaFramework.App.UI.Login.LoginPresenter",
         singleton = true,
         cachePolicy = "DestroyOnClose",
         assets = {
@@ -846,8 +846,8 @@ return {
 ```lua
 local FTestHelper = require("Tests.TestHelper")
 local FFakePlatformBridge = require("Tests.Fixtures.FFakePlatformBridge")
-local FUnrealRuntime = require("LuaUIFramework.Adapters.Unreal.FUnrealRuntime")
-local FUIManager = require("LuaUIFramework.Shared.Core.FUIManager")
+local FUnrealRuntime = require("FLuaFramework.Adapters.Unreal.FUnrealRuntime")
+local FUIManager = require("FLuaFramework.Shared.Core.FUIManager")
 
 local function presenter_module(events)
     return { new = function()
@@ -929,15 +929,15 @@ end)
 
 Run: `node_modules/.bin/fengari Tests/Integration/FUIManagerSpec.lua`
 
-Expected: 非零退出，错误包含 `module 'LuaUIFramework.Shared.Core.FUIManager' not found`。
+Expected: 非零退出，错误包含 `module 'FLuaFramework.Shared.Core.FUIManager' not found`。
 
 - [ ] **Step 4: 实现注册查询、异步打开、迟到结果隔离和对称关闭**
 
-创建 `LuaUIFramework/Shared/Core/FUIManager.lua`：
+创建 `FLuaFramework/Shared/Core/FUIManager.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FLifecycle = require("LuaUIFramework.Shared.Core.FLifecycle")
+local FError = require("FLuaFramework.Shared.Core.FError")
+local FLifecycle = require("FLuaFramework.Shared.Core.FLifecycle")
 
 local FUIManager = {}
 FUIManager.__index = FUIManager
@@ -1085,7 +1085,7 @@ end)
 destroy_native_view = function(root) return self:_view_ops(root).destroy() end,
 ```
 
-在 `LuaUIFramework/Adapters/Unreal/FUnrealRuntime.lua` 的 `return FUnrealRuntime` 前加入：
+在 `FLuaFramework/Adapters/Unreal/FUnrealRuntime.lua` 的 `return FUnrealRuntime` 前加入：
 
 ```lua
 function FUnrealRuntime:destroy_native_view(native_view)
@@ -1093,7 +1093,7 @@ function FUnrealRuntime:destroy_native_view(native_view)
 end
 ```
 
-在 `LuaUIFramework/Adapters/Unity/FUnityRuntime.lua` 的 `return FUnityRuntime` 前加入：
+在 `FLuaFramework/Adapters/Unity/FUnityRuntime.lua` 的 `return FUnityRuntime` 前加入：
 
 ```lua
 function FUnityRuntime:destroy_native_view(native_view)
@@ -1166,7 +1166,7 @@ Expected: 退出码为 0，无输出。
 
 **Files:**
 - Create: `Tests/Integration/LoginPanelSpec.lua`
-- Create: `LuaUIFramework/App/UI/Login/LoginPresenter.lua`
+- Create: `FLuaFramework/App/UI/Login/LoginPresenter.lua`
 
 - [ ] **Step 1: 写双平台端到端失败测试**
 
@@ -1175,10 +1175,10 @@ Expected: 退出码为 0，无输出。
 ```lua
 local FTestHelper = require("Tests.TestHelper")
 local FFakePlatformBridge = require("Tests.Fixtures.FFakePlatformBridge")
-local FUnrealRuntime = require("LuaUIFramework.Adapters.Unreal.FUnrealRuntime")
-local FUnityRuntime = require("LuaUIFramework.Adapters.Unity.FUnityRuntime")
-local FUIManager = require("LuaUIFramework.Shared.Core.FUIManager")
-local pages = require("LuaUIFramework.Config.FPages")
+local FUnrealRuntime = require("FLuaFramework.Adapters.Unreal.FUnrealRuntime")
+local FUnityRuntime = require("FLuaFramework.Adapters.Unity.FUnityRuntime")
+local FUIManager = require("FLuaFramework.Shared.Core.FUIManager")
+local pages = require("FLuaFramework.Config.FPages")
 
 local cases = {
     { platform = "unreal", runtime = FUnrealRuntime, bridge = "as_unreal" },
@@ -1219,14 +1219,14 @@ end
 
 Run: `node_modules/.bin/fengari Tests/Integration/LoginPanelSpec.lua`
 
-Expected: 非零退出，错误包含 `module 'LuaUIFramework.App.UI.Login.LoginPresenter' not found`。
+Expected: 非零退出，错误包含 `module 'FLuaFramework.App.UI.Login.LoginPresenter' not found`。
 
 - [ ] **Step 3: 实现只依赖公共 View 契约的 LoginPresenter**
 
-创建 `LuaUIFramework/App/UI/Login/LoginPresenter.lua`：
+创建 `FLuaFramework/App/UI/Login/LoginPresenter.lua`：
 
 ```lua
-local FBasePresenter = require("LuaUIFramework.Shared.Core.FBasePresenter")
+local FBasePresenter = require("FLuaFramework.Shared.Core.FBasePresenter")
 local LoginPresenter = {}
 LoginPresenter.__index = LoginPresenter
 setmetatable(LoginPresenter, { __index = FBasePresenter })
@@ -1288,24 +1288,24 @@ Expected: 退出码为 0，无输出；同一测试分别以 `unreal` 和 `unity
 
 ```lua
 local modules = {
-    "LuaUIFramework.Shared.Core.FError",
-    "LuaUIFramework.Shared.Core.FBasePresenter",
-    "LuaUIFramework.Shared.Core.FLifecycle",
-    "LuaUIFramework.Shared.Core.FUIManager",
-    "LuaUIFramework.Shared.Contracts.FIWidget",
-    "LuaUIFramework.Shared.Contracts.FIText",
-    "LuaUIFramework.Shared.Contracts.FIButton",
-    "LuaUIFramework.Shared.Contracts.FIImage",
-    "LuaUIFramework.Shared.Contracts.FIView",
-    "LuaUIFramework.Shared.Events.FEventBus",
-    "LuaUIFramework.Shared.State.FStore",
-    "LuaUIFramework.Shared.Utils.FCommand",
-    "LuaUIFramework.Shared.Utils.FValidation",
-    "LuaUIFramework.Adapters.Common.FViewBinder",
-    "LuaUIFramework.Adapters.Unreal.FUnrealRuntime",
-    "LuaUIFramework.Adapters.Unity.FUnityRuntime",
-    "LuaUIFramework.App.UI.Login.LoginPresenter",
-    "LuaUIFramework.Config.FPages",
+    "FLuaFramework.Shared.Core.FError",
+    "FLuaFramework.Shared.Core.FBasePresenter",
+    "FLuaFramework.Shared.Core.FLifecycle",
+    "FLuaFramework.Shared.Core.FUIManager",
+    "FLuaFramework.Shared.Contracts.FIWidget",
+    "FLuaFramework.Shared.Contracts.FIText",
+    "FLuaFramework.Shared.Contracts.FIButton",
+    "FLuaFramework.Shared.Contracts.FIImage",
+    "FLuaFramework.Shared.Contracts.FIView",
+    "FLuaFramework.Shared.Events.FEventBus",
+    "FLuaFramework.Shared.State.FStore",
+    "FLuaFramework.Shared.Utils.FCommand",
+    "FLuaFramework.Shared.Utils.FValidation",
+    "FLuaFramework.Adapters.Common.FViewBinder",
+    "FLuaFramework.Adapters.Unreal.FUnrealRuntime",
+    "FLuaFramework.Adapters.Unity.FUnityRuntime",
+    "FLuaFramework.App.UI.Login.LoginPresenter",
+    "FLuaFramework.Config.FPages",
 }
 
 for _, module_name in ipairs(modules) do
@@ -1354,7 +1354,7 @@ xLua 宿主向 `FUnityRuntime.new(bridge)` 注入：
 npm install
 npm test
 npm run check:lua
-rg -n "UE\.|UnityEngine\.|CS\." LuaUIFramework/Shared LuaUIFramework/App
+rg -n "UE\.|UnityEngine\.|CS\." FLuaFramework/Shared FLuaFramework/App
 ```
 ```
 
@@ -1372,7 +1372,7 @@ Expected: 退出码为 0，无 Lua 语法错误，输出 `parsed 18 Lua modules`
 
 - [ ] **Step 5: 验证共享层没有引擎 API 泄漏**
 
-Run: `rg -n "UE\.|UnityEngine\.|CS\." LuaUIFramework/Shared LuaUIFramework/App`
+Run: `rg -n "UE\.|UnityEngine\.|CS\." FLuaFramework/Shared FLuaFramework/App`
 
 Expected: 退出码为 1 且无匹配；`rg` 的退出码 1 在这里表示没有发现禁用依赖，是成功结果。
 

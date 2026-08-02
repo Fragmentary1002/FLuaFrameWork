@@ -1,5 +1,5 @@
 local FTestHelper = require("Tests.TestHelper")
-local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
+local FViewBinder = require("FLuaFramework.Adapters.Common.FViewBinder")
 
 local function make_bridge(bindings)
     return {

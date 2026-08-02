@@ -1,5 +1,5 @@
 local FTestHelper = require("Tests.TestHelper")
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 
 FTestHelper:test("class creates instances and runs constructors from parent to child", function()
     local calls = {}

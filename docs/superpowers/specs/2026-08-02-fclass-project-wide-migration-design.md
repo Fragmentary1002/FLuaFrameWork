@@ -2,7 +2,7 @@
 
 ## 目标
 
-将生产代码和测试 Fixture 中所有手写 `__index` / `new` 类模式迁移到 `LuaUIFramework.Shared.Core.FClass`。迁移后，项目内部统一使用 `Type:new(...)`，不兼容 `Type.new(...)`，并保持现有 UI、状态、事件、Runtime Adapter 和错误行为不变。
+将生产代码和测试 Fixture 中所有手写 `__index` / `new` 类模式迁移到 `FLuaFramework.Shared.Core.FClass`。迁移后，项目内部统一使用 `Type:new(...)`，不兼容 `Type.new(...)`，并保持现有 UI、状态、事件、Runtime Adapter 和错误行为不变。
 
 ## 迁移范围
 
@@ -26,7 +26,7 @@
 16. `LoginPresenter`
 17. `FFakePlatformBridge`
 
-同时迁移 `LuaUIFramework` 和 `Tests` 内所有对应构造调用，并更新 README 的公共 Runtime 示例。
+同时迁移 `FLuaFramework` 和 `Tests` 内所有对应构造调用，并更新 README 的公共 Runtime 示例。
 
 以下内容不属于类迁移范围：
 
@@ -39,7 +39,7 @@
 
 ### 解除 FError 循环依赖
 
-`FError` 迁移后需要加载 `FClass`，而 `FClass` 当前在模块顶层加载 `FError`。为避免 `FError → FClass → FError`，`FClass.raise` 改为在真正产生类系统错误时延迟 `require("LuaUIFramework.Shared.Core.FError")`，并使用 `FError:new(...)` 创建错误。
+`FError` 迁移后需要加载 `FClass`，而 `FClass` 当前在模块顶层加载 `FError`。为避免 `FError → FClass → FError`，`FClass.raise` 改为在真正产生类系统错误时延迟 `require("FLuaFramework.Shared.Core.FError")`，并使用 `FError:new(...)` 创建错误。
 
 正常定义 `FError = Class("FError")` 不会进入错误路径，因此模块初始化能够完成。类名、父类或类型参数非法时，`FError` 此时已经可由 Lua 模块系统正常加载。
 
@@ -64,7 +64,7 @@
 所有根类使用：
 
 ```lua
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 local FStore = Class("FStore")
 
 function FStore:ctor(initial_values)
@@ -75,8 +75,8 @@ end
 所有子类使用：
 
 ```lua
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
+local Class = require("FLuaFramework.Shared.Core.FClass")
+local FIWidget = require("FLuaFramework.Shared.Contracts.FIWidget")
 local FIText = Class("FIText", FIWidget)
 ```
 
@@ -146,17 +146,17 @@ Manager 测试中的 `FakePresenter` 也通过 `Class("FakePresenter")` 和 `cto
 对生产代码和测试运行扫描：
 
 ```powershell
-rg -n "function\s+[A-Za-z0-9_\.]+\.new|[A-Za-z0-9_\.]+\.new\(" LuaUIFramework Tests
-rg -n "__index\s*=" LuaUIFramework Tests -g "*.lua" -g "!LuaUIFramework/Shared/Core/FClass.lua"
+rg -n "function\s+[A-Za-z0-9_\.]+\.new|[A-Za-z0-9_\.]+\.new\(" FLuaFramework Tests
+rg -n "__index\s*=" FLuaFramework Tests -g "*.lua" -g "!FLuaFramework/Shared/Core/FClass.lua"
 ```
 
 两条命令都应无匹配。`FClass.lua` 内部保留类系统所必需的 metatable 实现。
 
 ## 文件改动
 
-- Modify: `LuaUIFramework/Shared/Core/FClass.lua`
+- Modify: `FLuaFramework/Shared/Core/FClass.lua`
 - Modify: 上述 16 个生产类模块
-- Modify: `LuaUIFramework/Adapters/Common/FViewBinder.lua`
+- Modify: `FLuaFramework/Adapters/Common/FViewBinder.lua`
 - Modify: `Tests/Fixtures/FFakePlatformBridge.lua`
 - Modify: 所有使用旧点调用构造函数的现有测试
 - Modify: `Tests/Unit/FClassSpec.lua`

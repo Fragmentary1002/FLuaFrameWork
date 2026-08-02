@@ -8,7 +8,7 @@
 
 ## 文件边界
 
-- 新增 `LuaUIFramework/Shared/Core/FClass.lua`：唯一生产模块。
+- 新增 `FLuaFramework/Shared/Core/FClass.lua`：唯一生产模块。
 - 新增 `Tests/Unit/FClassSpec.lua`：独立单元规格。
 - 不修改现有 UI、Runtime Adapter、Presenter、Store、EventBus 或其他业务模块。
 
@@ -17,7 +17,7 @@
 ### 定义类与创建对象
 
 ```lua
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 
 local Animal = Class("Animal")
 local Dog = Class("Dog", Animal)
@@ -88,7 +88,7 @@ end
 
 ## 错误模型
 
-模块复用 `LuaUIFramework.Shared.Core.FError`，定义以下错误码：
+模块复用 `FLuaFramework.Shared.Core.FError`，定义以下错误码：
 
 - `INVALID_CLASS_NAME`：类名不是非空字符串。
 - `INVALID_BASE_CLASS`：父类不是本模块创建的类。

@@ -1,4 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 local FFakePlatformBridge = Class("FFakePlatformBridge")
 
 function FFakePlatformBridge:ctor(platform)

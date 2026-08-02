@@ -1,7 +1,7 @@
 local FTestHelper = require("Tests.TestHelper")
 local FFakePlatformBridge = require("Tests.Fixtures.FFakePlatformBridge")
-local FUnrealRuntime = require("LuaUIFramework.Adapters.Unreal.FUnrealRuntime")
-local FUnityRuntime = require("LuaUIFramework.Adapters.Unity.FUnityRuntime")
+local FUnrealRuntime = require("FLuaFramework.Adapters.Unreal.FUnrealRuntime")
+local FUnityRuntime = require("FLuaFramework.Adapters.Unity.FUnityRuntime")
 
 local cases = {
     { platform = "unreal", runtime = FUnrealRuntime, bridge = "as_unreal" },

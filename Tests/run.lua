@@ -1,4 +1,4 @@
-require("LuaUIFramework.register")
+require("FLuaFramework.register")
 local FTestHelper = require("Tests.TestHelper")
 
 local specs = {

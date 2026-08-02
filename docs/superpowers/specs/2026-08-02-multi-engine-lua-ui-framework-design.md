@@ -495,7 +495,7 @@ request:cancel()
 ## 14. 目录建议
 
 ```text
-LuaUIFramework/
+FLuaFramework/
 ├─ Shared/
 │  ├─ Core/
 │  │  ├─ FUIManager.lua

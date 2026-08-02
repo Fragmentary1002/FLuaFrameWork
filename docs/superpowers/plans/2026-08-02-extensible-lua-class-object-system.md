@@ -12,7 +12,7 @@
 
 ## 实施边界与文件职责
 
-- Create: `LuaUIFramework/Shared/Core/FClass.lua`：类定义、实例创建、继承、类型查询与销毁机制。
+- Create: `FLuaFramework/Shared/Core/FClass.lua`：类定义、实例创建、继承、类型查询与销毁机制。
 - Create: `Tests/Unit/FClassSpec.lua`：该机制的独立单元规格。
 - 不修改 `Tests/run.lua`、`Tests/check.lua` 或任何现有 UI/Runtime/Presenter 文件。
 
@@ -27,7 +27,7 @@
 
 ```lua
 local FTestHelper = require("Tests.TestHelper")
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 
 FTestHelper:test("class creates instances and runs constructors from parent to child", function()
     local calls = {}
@@ -172,20 +172,20 @@ Run:
 node_modules/.bin/fengari -e "dofile('Tests/Unit/FClassSpec.lua')"
 ```
 
-Expected: 退出码非 0，错误包含 `module 'LuaUIFramework.Shared.Core.FClass' not found`。
+Expected: 退出码非 0，错误包含 `module 'FLuaFramework.Shared.Core.FClass' not found`。
 
 ### Task 2: 实现类与对象机制并确认 GREEN
 
 **Files:**
-- Create: `LuaUIFramework/Shared/Core/FClass.lua`
+- Create: `FLuaFramework/Shared/Core/FClass.lua`
 - Test: `Tests/Unit/FClassSpec.lua`
 
 - [ ] **Step 1: 写最小完整实现**
 
-创建 `LuaUIFramework/Shared/Core/FClass.lua`：
+创建 `FLuaFramework/Shared/Core/FClass.lua`：
 
 ```lua
-local FError = require("LuaUIFramework.Shared.Core.FError")
+local FError = require("FLuaFramework.Shared.Core.FError")
 
 local FClass = {}
 local class_info = setmetatable({}, { __mode = "k" })
@@ -370,7 +370,7 @@ Expected: 退出码为 0，无输出；7 个新增用例全部执行成功。
 ### Task 3: 独立验收与回归检查
 
 **Files:**
-- Verify: `LuaUIFramework/Shared/Core/FClass.lua`
+- Verify: `FLuaFramework/Shared/Core/FClass.lua`
 - Verify: `Tests/Unit/FClassSpec.lua`
 
 - [ ] **Step 1: 验证生产模块可以独立解析**
@@ -378,7 +378,7 @@ Expected: 退出码为 0，无输出；7 个新增用例全部执行成功。
 Run:
 
 ```powershell
-node_modules/.bin/fengari -e "local Class=require('LuaUIFramework.Shared.Core.FClass'); assert(type(Class) == 'table')"
+node_modules/.bin/fengari -e "local Class=require('FLuaFramework.Shared.Core.FClass'); assert(type(Class) == 'table')"
 ```
 
 Expected: 退出码为 0，无输出。
@@ -395,7 +395,7 @@ Run:
 
 ```powershell
 git status --short
-git diff -- LuaUIFramework/Shared/Core/FClass.lua Tests/Unit/FClassSpec.lua
+git diff -- FLuaFramework/Shared/Core/FClass.lua Tests/Unit/FClassSpec.lua
 ```
 
 Expected: 除计划文档外，功能改动只包含新增的 `FClass.lua` 和 `FClassSpec.lua`，现有 UI/Runtime/Presenter 文件没有变化。

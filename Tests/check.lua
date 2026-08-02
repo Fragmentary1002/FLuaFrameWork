@@ -1,6 +1,6 @@
-local registered = require("LuaUIFramework.register")
-require("LuaUIFramework.App.UI.Login.LoginPresenter")
-require("LuaUIFramework.Config.FPages")
+local registered = require("FLuaFramework.register")
+require("FLuaFramework.App.UI.Login.LoginPresenter")
+require("FLuaFramework.Config.FPages")
 
 local registered_count = 0
 for _ in pairs(registered) do

@@ -6,7 +6,7 @@
 
 ## 目标
 
-- 宿主只需在启动阶段执行一次 `require("LuaUIFramework.register")`。
+- 宿主只需在启动阶段执行一次 `require("FLuaFramework.register")`。
 - Register 按明确的依赖顺序加载通用框架模块并写入 `_G`。
 - 框架模块和示例业务模块不再自行执行 `require`。
 - 重复加载 Register 不会重复初始化模块。
@@ -19,10 +19,10 @@
 
 ## 文件与接口
 
-新增 `LuaUIFramework/register.lua`。调用方式如下：
+新增 `FLuaFramework/register.lua`。调用方式如下：
 
 ```lua
-local registered = require("LuaUIFramework.register")
+local registered = require("FLuaFramework.register")
 ```
 
 加载完成后，通用模块同时可以通过全局变量访问：
@@ -62,14 +62,14 @@ Register 注册以下通用框架模块：
 
 ## 模块改造规则
 
-- 删除 `LuaUIFramework` 下除 `register.lua` 外的全部 `require` 表达式。
+- 删除 `FLuaFramework` 下除 `register.lua` 外的全部 `require` 表达式。
 - 原来名为 `Class` 的局部依赖统一替换为全局 `FClass`，避免新增含义模糊的 `_G.Class`。
 - 其他类型名称保持现有 `F` / `FI` 命名。
 - 模块加载前若宿主没有执行 Register，Lua 会在首次使用缺失全局变量时快速失败；这是明确的启动契约，不额外加入隐式兜底加载。
 
 ## 重复加载与全局覆盖
 
-Lua 自身的 `package.loaded` 保证普通重复 `require("LuaUIFramework.register")` 返回同一个注册表，不会再次执行模块初始化。Register 在首次执行时为约定的框架全局名称赋值。此次不增加热重载或冲突检测策略，以保持入口简单；宿主不得预先用其他值占用这些保留名称。
+Lua 自身的 `package.loaded` 保证普通重复 `require("FLuaFramework.register")` 返回同一个注册表，不会再次执行模块初始化。Register 在首次执行时为约定的框架全局名称赋值。此次不增加热重载或冲突检测策略，以保持入口简单；宿主不得预先用其他值占用这些保留名称。
 
 ## 测试与验证
 
@@ -77,12 +77,12 @@ Lua 自身的 `package.loaded` 保证普通重复 `require("LuaUIFramework.regis
 - 验证重复 `require` 返回同一张注册表。
 - 测试运行入口在加载任何 Spec 前先加载 Register。
 - Lua 语法检查入口先加载 Register，再加载业务模块和配置。
-- 静态检查 `LuaUIFramework` 下除 `register.lua` 外不存在 `require`。
+- 静态检查 `FLuaFramework` 下除 `register.lua` 外不存在 `require`。
 - 运行现有完整测试，确认页面、生命周期、适配器和 Presenter 行为没有回归。
 
 ## 验收标准
 
-1. `require("LuaUIFramework.register")` 后，所有列出的通用框架全局变量可直接使用。
-2. `LuaUIFramework/register.lua` 是框架唯一的静态 `require` 汇总入口。
+1. `require("FLuaFramework.register")` 后，所有列出的通用框架全局变量可直接使用。
+2. `FLuaFramework/register.lua` 是框架唯一的静态 `require` 汇总入口。
 3. 所有现有自动化测试通过。
 4. 未先加载 Register 时不会发生隐式依赖加载。

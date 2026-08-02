@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const frameworkRoot = path.join(process.cwd(), "LuaUIFramework");
+const frameworkRoot = path.join(process.cwd(), "FLuaFramework");
 const registerPath = path.join(frameworkRoot, "register.lua");
 const violations = [];
 
@@ -22,7 +22,7 @@ function visit(directory) {
 visit(frameworkRoot);
 
 if (violations.length > 0) {
-  console.error("Only LuaUIFramework/register.lua may require framework dependencies:");
+  console.error("Only FLuaFramework/register.lua may require framework dependencies:");
   for (const violation of violations) {
     console.error(`- ${violation}`);
   }

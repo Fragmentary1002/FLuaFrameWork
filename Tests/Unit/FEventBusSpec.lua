@@ -1,5 +1,5 @@
 local FTestHelper = require("Tests.TestHelper")
-local FEventBus = require("LuaUIFramework.Shared.Events.FEventBus")
+local FEventBus = require("FLuaFramework.Shared.Events.FEventBus")
 
 FTestHelper:test("event subscribers receive emitted arguments", function()
     local bus = FEventBus:new()

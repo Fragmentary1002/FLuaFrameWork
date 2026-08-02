@@ -1,5 +1,5 @@
 local FTestHelper = require("Tests.TestHelper")
-local FBasePresenter = require("LuaUIFramework.Shared.Core.FBasePresenter")
+local FBasePresenter = require("FLuaFramework.Shared.Core.FBasePresenter")
 
 FTestHelper:test("presenter unbind releases every tracked subscription once", function()
     local presenter = FBasePresenter:new()

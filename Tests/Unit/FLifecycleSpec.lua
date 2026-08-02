@@ -1,5 +1,5 @@
 local FTestHelper = require("Tests.TestHelper")
-local FLifecycle = require("LuaUIFramework.Shared.Core.FLifecycle")
+local FLifecycle = require("FLuaFramework.Shared.Core.FLifecycle")
 
 FTestHelper:test("lifecycle follows the page open and destroy path", function()
     local lifecycle = FLifecycle:new()

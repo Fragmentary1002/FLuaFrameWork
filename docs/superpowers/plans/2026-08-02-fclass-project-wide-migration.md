@@ -23,7 +23,7 @@
 
 **Files:**
 - Modify: `Tests/Unit/FClassSpec.lua`
-- Modify: `LuaUIFramework/Shared/Core/FClass.lua`
+- Modify: `FLuaFramework/Shared/Core/FClass.lua`
 
 - [ ] **Step 1: 追加失败规格**
 
@@ -74,7 +74,7 @@ Expected: 非零退出，首先失败于 `class dispatches tostring to the concr
 
 ```lua
 local function raise(code, message, context)
-    local FError = require("LuaUIFramework.Shared.Core.FError")
+    local FError = require("FLuaFramework.Shared.Core.FError")
     error(FError:new(code, message, context or {}), 0)
 end
 ```
@@ -126,14 +126,14 @@ local instance_metatable = {
 ### Task 2: 迁移 Shared Core、Events、State 与 Utils
 
 **Files:**
-- Modify: `LuaUIFramework/Shared/Core/FError.lua`
-- Modify: `LuaUIFramework/Shared/Core/FBasePresenter.lua`
-- Modify: `LuaUIFramework/Shared/Core/FLifecycle.lua`
-- Modify: `LuaUIFramework/Shared/Core/FUIManager.lua`
-- Modify: `LuaUIFramework/Shared/Events/FEventBus.lua`
-- Modify: `LuaUIFramework/Shared/State/FStore.lua`
-- Modify: `LuaUIFramework/Shared/Utils/FCommand.lua`
-- Modify: `LuaUIFramework/Shared/Utils/FValidation.lua`
+- Modify: `FLuaFramework/Shared/Core/FError.lua`
+- Modify: `FLuaFramework/Shared/Core/FBasePresenter.lua`
+- Modify: `FLuaFramework/Shared/Core/FLifecycle.lua`
+- Modify: `FLuaFramework/Shared/Core/FUIManager.lua`
+- Modify: `FLuaFramework/Shared/Events/FEventBus.lua`
+- Modify: `FLuaFramework/Shared/State/FStore.lua`
+- Modify: `FLuaFramework/Shared/Utils/FCommand.lua`
+- Modify: `FLuaFramework/Shared/Utils/FValidation.lua`
 - Modify: `Tests/Unit/FEventBusSpec.lua`
 - Modify: `Tests/Unit/FStoreSpec.lua`
 - Modify: `Tests/Unit/FLifecycleSpec.lua`
@@ -159,7 +159,7 @@ Expected: 非零退出；旧手写构造函数收到错误的类 self，证明�
 
 - [ ] **Step 2: 迁移八个根类定义**
 
-每个文件加入 `local Class = require("LuaUIFramework.Shared.Core.FClass")`，并使用以下定义与构造器：
+每个文件加入 `local Class = require("FLuaFramework.Shared.Core.FClass")`，并使用以下定义与构造器：
 
 ```lua
 -- FError.lua
@@ -230,15 +230,15 @@ Expected: 相关单元用例恢复通过；若尚未迁移模块的旧调用仍�
 ### Task 3: 迁移 Contracts、Adapters 与 Presenter 继承
 
 **Files:**
-- Modify: `LuaUIFramework/Shared/Contracts/FIWidget.lua`
-- Modify: `LuaUIFramework/Shared/Contracts/FIText.lua`
-- Modify: `LuaUIFramework/Shared/Contracts/FIButton.lua`
-- Modify: `LuaUIFramework/Shared/Contracts/FIImage.lua`
-- Modify: `LuaUIFramework/Shared/Contracts/FIView.lua`
-- Modify: `LuaUIFramework/Adapters/Common/FViewBinder.lua`
-- Modify: `LuaUIFramework/Adapters/Unreal/FUnrealRuntime.lua`
-- Modify: `LuaUIFramework/Adapters/Unity/FUnityRuntime.lua`
-- Modify: `LuaUIFramework/App/UI/Login/LoginPresenter.lua`
+- Modify: `FLuaFramework/Shared/Contracts/FIWidget.lua`
+- Modify: `FLuaFramework/Shared/Contracts/FIText.lua`
+- Modify: `FLuaFramework/Shared/Contracts/FIButton.lua`
+- Modify: `FLuaFramework/Shared/Contracts/FIImage.lua`
+- Modify: `FLuaFramework/Shared/Contracts/FIView.lua`
+- Modify: `FLuaFramework/Adapters/Common/FViewBinder.lua`
+- Modify: `FLuaFramework/Adapters/Unreal/FUnrealRuntime.lua`
+- Modify: `FLuaFramework/Adapters/Unity/FUnityRuntime.lua`
+- Modify: `FLuaFramework/App/UI/Login/LoginPresenter.lua`
 - Modify: `Tests/Unit/FViewBinderSpec.lua`
 - Modify: `Tests/Contract/FRuntimeContractSpec.lua`
 - Modify: `Tests/Integration/FUIManagerSpec.lua`
@@ -310,8 +310,8 @@ end
 定义替换为：
 
 ```lua
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FBasePresenter = require("LuaUIFramework.Shared.Core.FBasePresenter")
+local Class = require("FLuaFramework.Shared.Core.FClass")
+local FBasePresenter = require("FLuaFramework.Shared.Core.FBasePresenter")
 local LoginPresenter = Class("LoginPresenter", FBasePresenter)
 
 function LoginPresenter:ctor(services)
@@ -333,14 +333,14 @@ Expected: 除测试 Fixture 或剩余点调用外，Contracts、Runtime 与 Logi
 - Modify: `Tests/Fixtures/FFakePlatformBridge.lua`
 - Modify: `Tests/Integration/FUIManagerSpec.lua`
 - Modify: `Tests/**/*.lua`
-- Modify: `LuaUIFramework/**/*.lua`
+- Modify: `FLuaFramework/**/*.lua`
 
 - [ ] **Step 1: 迁移 FFakePlatformBridge**
 
 文件头和构造器改为：
 
 ```lua
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 local FFakePlatformBridge = Class("FFakePlatformBridge")
 
 function FFakePlatformBridge:ctor(platform)
@@ -355,7 +355,7 @@ end
 将 `presenter_module(events)` 改为：
 
 ```lua
-local Class = require("LuaUIFramework.Shared.Core.FClass")
+local Class = require("FLuaFramework.Shared.Core.FClass")
 
 local function presenter_module(events)
     local FakePresenter = Class("FakePresenter")
@@ -368,12 +368,12 @@ end
 
 - [ ] **Step 3: 清除全部旧点调用**
 
-对 `LuaUIFramework` 和 `Tests` 中剩余构造调用逐一改为冒号。不得修改 `FClass.lua` 的 `class_methods:new`。
+对 `FLuaFramework` 和 `Tests` 中剩余构造调用逐一改为冒号。不得修改 `FClass.lua` 的 `class_methods:new`。
 
 Run:
 
 ```powershell
-rg -n "function\s+[A-Za-z0-9_\.]+\.new|[A-Za-z0-9_\.]+\.new\(" LuaUIFramework Tests
+rg -n "function\s+[A-Za-z0-9_\.]+\.new|[A-Za-z0-9_\.]+\.new\(" FLuaFramework Tests
 ```
 
 Expected: 无匹配。
@@ -404,7 +404,7 @@ Expected: 当前测试入口中的 32 项全部通过。
 在 `Tests/check.lua` 的 FError 前加入：
 
 ```lua
-"LuaUIFramework.Shared.Core.FClass",
+"FLuaFramework.Shared.Core.FClass",
 ```
 
 - [ ] **Step 3: 更新 README 公共构造 API**
@@ -426,8 +426,8 @@ Expected: `parsed 19 Lua modules`。
 Run:
 
 ```powershell
-rg -n "function\s+[A-Za-z0-9_\.]+\.new|[A-Za-z0-9_\.]+\.new\(" LuaUIFramework Tests
-rg -n "__index\s*=" LuaUIFramework Tests -g "*.lua" -g "!LuaUIFramework/Shared/Core/FClass.lua"
+rg -n "function\s+[A-Za-z0-9_\.]+\.new|[A-Za-z0-9_\.]+\.new\(" FLuaFramework Tests
+rg -n "__index\s*=" FLuaFramework Tests -g "*.lua" -g "!FLuaFramework/Shared/Core/FClass.lua"
 ```
 
 Expected: 两条命令均退出码 1 且无匹配。

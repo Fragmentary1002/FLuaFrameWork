@@ -1,6 +1,6 @@
 return {
     LoginPanel = {
-        presenter = "LuaUIFramework.App.UI.Login.LoginPresenter",
+        presenter = "FLuaFramework.App.UI.Login.LoginPresenter",
         singleton = true,
         cachePolicy = "DestroyOnClose",
         assets = {

@@ -1,8 +1,8 @@
 local FTestHelper = require("Tests.TestHelper")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FStore = require("LuaUIFramework.Shared.State.FStore")
-local FCommand = require("LuaUIFramework.Shared.Utils.FCommand")
-local FValidation = require("LuaUIFramework.Shared.Utils.FValidation")
+local FError = require("FLuaFramework.Shared.Core.FError")
+local FStore = require("FLuaFramework.Shared.State.FStore")
+local FCommand = require("FLuaFramework.Shared.Utils.FCommand")
+local FValidation = require("FLuaFramework.Shared.Utils.FValidation")
 
 FTestHelper:test("unified errors expose code message context and tostring", function()
     local context = { field = "account" }
