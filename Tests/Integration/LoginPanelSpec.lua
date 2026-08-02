@@ -4,6 +4,7 @@ local FUnrealRuntime = require("FLuaFramework.Adapters.Unreal.FUnrealRuntime")
 local FUnityRuntime = require("FLuaFramework.Adapters.Unity.FUnityRuntime")
 local FUIManager = require("FLuaFramework.Shared.Core.FUIManager")
 local pages = require("FLuaFramework.Config.FPages")
+local layers = require("FLuaFramework.Config.FLayers")
 
 local cases = {
     { platform = "unreal", runtime = FUnrealRuntime, bridge = "as_unreal" },
@@ -17,6 +18,7 @@ for _, case in ipairs(cases) do
         local manager = FUIManager:new({
             runtime = case.runtime:new(fake[case.bridge](fake)),
             pages = pages,
+            layers = layers,
             services = { login = function(account)
                 service_calls = service_calls + 1
                 return account == "alice", account == "alice" and nil or "登录失败"

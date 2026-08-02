@@ -3,8 +3,9 @@ local FTestHelper = require("Tests.TestHelper")
 FTestHelper:test("register exposes every framework module as a global", function()
     local registered = require("FLuaFramework.register")
     local expected_names = {
-        "FClass", "FError", "FBasePresenter", "FLifecycle", "FUIManager",
-        "FIWidget", "FIText", "FIButton", "FIImage", "FIView",
+        "FClass", "FError", "FBasePresenter", "FLifecycle", "FUIManager", "FUIRouter",
+        "FIWidget", "FIText", "FIButton", "FIImage", "FIInput", "FIToggle", "FIProgress", "FIView",
+        "FAssetHandle", "FIAssetLoader", "FILogger",
         "FEventBus", "FStore", "FCommand", "FValidation", "FViewBinder",
         "FUnrealRuntime", "FUnityRuntime",
     }

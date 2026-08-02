@@ -32,6 +32,9 @@ end
 function FIView:text(id) return self:_get(id, "Text") end
 function FIView:button(id) return self:_get(id, "Button") end
 function FIView:image(id) return self:_get(id, "Image") end
+function FIView:input(id) return self:_get(id, "Input") end
+function FIView:toggle(id) return self:_get(id, "Toggle") end
+function FIView:progress(id) return self:_get(id, "Progress") end
 
 function FIView:set_visible(value)
     self:_assert_valid()

@@ -2,11 +2,19 @@ local FUIManager = FClass("FUIManager")
 
 function FUIManager:ctor(options)
     self.runtime = options.runtime
+    self.logger = options.logger or FILogger:new(self.runtime.platform)
     self.pages = options.pages
+    self.layers = options.layers or {}
     self.services = options.services or {}
     self.require_module = options.require_module or require
     self.instances = {}
     self.next_request_version = 0
+    self.next_instance_id = 0
+end
+
+function FUIManager:_raise(failure, context)
+    self.logger:error(failure, context)
+    error(failure, 0)
 end
 
 function FUIManager:get(page_name)
@@ -47,6 +55,14 @@ function FUIManager:_finish_open(instance, native_view, expected_version)
     end
 
     local succeeded, failure = xpcall(function()
+        if type(self.runtime.mount_view) == "function" then
+            self.runtime:mount_view(
+                native_view,
+                instance.layer,
+                self.layers[instance.layer],
+                instance.definition.inputMode or "UIOnly"
+            )
+        end
         instance.view = self.runtime:bind_view(
             instance.name,
             native_view,
@@ -86,7 +102,18 @@ end
 function FUIManager:open(page_name, params)
     local definition = self.pages[page_name]
     if definition == nil then
-        error(FError:new("PAGE_NOT_REGISTERED", "page is not registered", { page = page_name }), 0)
+        local failure = FError:new("PAGE_NOT_REGISTERED", "page is not registered", { page = page_name })
+        self:_raise(failure, { page = page_name, platform = self.runtime.platform })
+    end
+    local layer_name = definition.layer or "Normal"
+    local layer = self.layers[layer_name]
+    if layer == nil then
+        local failure = FError:new("LAYER_NOT_FOUND", "page layer is not configured", {
+            page = page_name,
+            layer = layer_name,
+            platform = self.runtime.platform,
+        })
+        self:_raise(failure, { page = page_name, platform = self.runtime.platform })
     end
     local existing = self.instances[page_name]
     if existing ~= nil and definition.singleton then
@@ -94,15 +121,20 @@ function FUIManager:open(page_name, params)
     end
     local asset = definition.assets[self.runtime.platform]
     if asset == nil then
-        error(FError:new("ASSET_LOAD_FAILED", "page has no asset for the active platform", {
+        local failure = FError:new("ASSET_LOAD_FAILED", "page has no asset for the active platform", {
             page = page_name, platform = self.runtime.platform,
-        }), 0)
+        })
+        self:_raise(failure, { page = page_name, platform = self.runtime.platform })
     end
 
     self.next_request_version = self.next_request_version + 1
+    self.next_instance_id = self.next_instance_id + 1
     local instance = {
+        id = self.next_instance_id,
         name = page_name,
         definition = definition,
+        layer = layer_name,
+        open_order = self.next_instance_id,
         lifecycle = FLifecycle:new(),
         request_version = self.next_request_version,
         params = params or {},
@@ -139,6 +171,27 @@ function FUIManager:close(page_name, result)
         return true
     end
     return false
+end
+
+function FUIManager:close_layer(layer_name)
+    if self.layers[layer_name] == nil then
+        error(FError:new("LAYER_NOT_FOUND", "UI layer is not configured", {
+            layer = layer_name,
+            platform = self.runtime.platform,
+        }), 0)
+    end
+    local targets = {}
+    for page_name, instance in pairs(self.instances) do
+        if instance.layer == layer_name then
+            table.insert(targets, { page = page_name, order = instance.open_order })
+        end
+    end
+    table.sort(targets, function(left, right) return left.order > right.order end)
+    local count = 0
+    for _, target in ipairs(targets) do
+        if self:close(target.page) then count = count + 1 end
+    end
+    return count
 end
 
 return FUIManager

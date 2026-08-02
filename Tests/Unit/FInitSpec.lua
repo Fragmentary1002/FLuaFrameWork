@@ -21,6 +21,11 @@ for _, case in ipairs(cases) do
         FTestHelper:assert_equal(case.platform, manager.runtime.platform)
         FTestHelper:assert_equal(services, manager.services)
         FTestHelper:assert_not_nil(manager.pages.LoginPanel)
+        FTestHelper:assert_not_nil(manager.router)
+        FTestHelper:assert_not_nil(manager.asset_loader)
+        FTestHelper:assert_not_nil(manager.logger)
+        FTestHelper:assert_equal(case.platform, manager.logger.platform)
+        FTestHelper:assert_not_nil(manager.layers.Normal)
     end)
 end
 

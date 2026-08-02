@@ -3,6 +3,8 @@ return {
         presenter = "FLuaFramework.App.UI.Login.LoginPresenter",
         singleton = true,
         cachePolicy = "DestroyOnClose",
+        layer = "Normal",
+        inputMode = "UIOnly",
         assets = {
             unreal = "/Game/UI/Login/WBP_LoginPanel",
             unity = "UI/Login/LoginPanel",

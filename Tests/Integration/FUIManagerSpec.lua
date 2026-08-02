@@ -19,11 +19,13 @@ local function make_manager()
         runtime = FUnrealRuntime:new(fake:as_unreal()),
         pages = { LoginPanel = {
             presenter = "FakePresenter", singleton = true, cachePolicy = "DestroyOnClose",
+            layer = "Normal", inputMode = "UIOnly",
             assets = { unreal = "WBP_LoginPanel" }, requiredBindings = {
                 title = "Text", account_text = "Text", login_button = "Button",
                 status_text = "Text", avatar = "Image",
             },
         } },
+        layers = { Normal = { order = 200, blocksInput = false } },
         require_module = function() return presenter_module(events) end,
     })
     return manager, fake, events

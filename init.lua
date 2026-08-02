@@ -1,5 +1,7 @@
 local registered = require("FLuaFramework.register")
 local pages = require("FLuaFramework.Config.FPages")
+local layers = require("FLuaFramework.Config.FLayers")
+local assets = require("FLuaFramework.Config.FAssets")
 
 local init = {}
 
@@ -30,11 +32,23 @@ function init.create(options)
         })
     end
 
-    return registered.FUIManager:new({
-        runtime = runtime_class:new(options.bridge),
+    local runtime = runtime_class:new(options.bridge)
+    local logger = registered.FILogger:new(options.platform, options.log_sink)
+    local manager = registered.FUIManager:new({
+        runtime = runtime,
         pages = pages,
+        layers = layers,
         services = options.services or {},
+        logger = logger,
     })
+    manager.router = registered.FUIRouter:new(manager)
+    manager.asset_loader = registered.FIAssetLoader:new(
+        options.platform,
+        assets,
+        options.asset_backend,
+        logger
+    )
+    return manager
 end
 
 return init
