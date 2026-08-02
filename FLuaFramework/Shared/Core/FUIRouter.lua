@@ -1,5 +1,17 @@
 local FUIRouter = FClass("FUIRouter")
 
+local function copy(value, seen)
+    if type(value) ~= "table" then return value end
+    seen = seen or {}
+    if seen[value] ~= nil then return seen[value] end
+    local result = {}
+    seen[value] = result
+    for key, item in pairs(value) do
+        result[copy(key, seen)] = copy(item, seen)
+    end
+    return result
+end
+
 function FUIRouter:ctor(manager)
     self.manager = manager
     self.stack = {}
@@ -84,6 +96,49 @@ function FUIRouter:present(page_name, params)
         }), 0)
     end
     return self.manager:open(page_name, params)
+end
+
+function FUIRouter:snapshot()
+    local routes = {}
+    for index, entry in ipairs(self.stack) do
+        routes[index] = {
+            page = entry.page,
+            params = copy(entry.params),
+            state = copy(self.manager:capture_state(entry.page)),
+        }
+    end
+    return { version = 1, routes = routes }
+end
+
+function FUIRouter:restore(snapshot)
+    if type(snapshot) ~= "table"
+        or snapshot.version ~= 1
+        or type(snapshot.routes) ~= "table"
+        or #snapshot.routes == 0 then
+        error(FError:new("INVALID_ROUTE_SNAPSHOT", "route snapshot is invalid", {}), 0)
+    end
+
+    for _, route in ipairs(snapshot.routes) do
+        if type(route) ~= "table" or type(route.page) ~= "string" then
+            error(FError:new("INVALID_ROUTE_SNAPSHOT", "route entry is invalid", {}), 0)
+        end
+        self:_definition(route.page)
+    end
+
+    for index = #self.stack, 1, -1 do
+        self.manager:close(self.stack[index].page, "restore")
+        self.stack[index] = nil
+    end
+
+    local previous = nil
+    for _, route in ipairs(snapshot.routes) do
+        if previous ~= nil then self.manager:hide(previous.page) end
+        self.manager:open(route.page, copy(route.params), copy(route.state))
+        local entry = { page = route.page, params = copy(route.params) }
+        table.insert(self.stack, entry)
+        previous = entry
+    end
+    return self:current()
 end
 
 return FUIRouter

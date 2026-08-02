@@ -26,11 +26,23 @@ function FUIManager:is_open(page_name)
     return instance ~= nil and instance.lifecycle:get_state() == "Opened"
 end
 
+function FUIManager:capture_state(page_name)
+    local instance = self.instances[page_name]
+    if instance == nil or instance.presenter == nil then return nil end
+    local state = instance.lifecycle:get_state()
+    if state ~= "Opened" and state ~= "Hidden" then return nil end
+    return instance.presenter:on_save_state()
+end
+
 function FUIManager:hide(page_name)
     local instance = self.instances[page_name]
-    if instance == nil or instance.lifecycle:get_state() ~= "Opened" then
-        return false
+    if instance == nil then return false end
+    if instance.lifecycle:get_state() == "Loading" then
+        instance.desired_visible = false
+        return true
     end
+    if instance.lifecycle:get_state() ~= "Opened" then return false end
+    instance.desired_visible = false
     instance.presenter:on_hide()
     instance.view:set_visible(false)
     instance.lifecycle:transition_to("Hidden")
@@ -39,9 +51,13 @@ end
 
 function FUIManager:show(page_name)
     local instance = self.instances[page_name]
-    if instance == nil or instance.lifecycle:get_state() ~= "Hidden" then
-        return false
+    if instance == nil then return false end
+    if instance.lifecycle:get_state() == "Loading" then
+        instance.desired_visible = true
+        return true
     end
+    if instance.lifecycle:get_state() ~= "Hidden" then return false end
+    instance.desired_visible = true
     instance.lifecycle:transition_to("Opened")
     instance.view:set_visible(true)
     instance.presenter:on_show()
@@ -72,11 +88,19 @@ function FUIManager:_finish_open(instance, native_view, expected_version)
         local presenter_module = self.require_module(instance.definition.presenter)
         instance.presenter = presenter_module:new(self.services)
         instance.presenter:on_create(instance.view, instance.params)
+        if instance.restore_state ~= nil then
+            instance.presenter:on_restore_state(instance.restore_state)
+        end
         instance.presenter:on_bind()
         instance.lifecycle:transition_to("Opened")
         instance.presenter:on_open(instance.params)
-        instance.view:set_visible(true)
-        instance.presenter:on_show()
+        if instance.desired_visible then
+            instance.view:set_visible(true)
+            instance.presenter:on_show()
+        else
+            instance.view:set_visible(false)
+            instance.lifecycle:transition_to("Hidden")
+        end
     end, function(err)
         return err
     end)
@@ -99,7 +123,7 @@ function FUIManager:_finish_open(instance, native_view, expected_version)
     error(failure, 0)
 end
 
-function FUIManager:open(page_name, params)
+function FUIManager:open(page_name, params, restore_state)
     local definition = self.pages[page_name]
     if definition == nil then
         local failure = FError:new("PAGE_NOT_REGISTERED", "page is not registered", { page = page_name })
@@ -138,6 +162,8 @@ function FUIManager:open(page_name, params)
         lifecycle = FLifecycle:new(),
         request_version = self.next_request_version,
         params = params or {},
+        desired_visible = true,
+        restore_state = restore_state,
     }
     instance.lifecycle:transition_to("Loading")
     self.instances[page_name] = instance

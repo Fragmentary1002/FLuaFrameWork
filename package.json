@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "test": "node Tests/check-requires.js && fengari Tests/run.lua",
-    "check:lua": "fengari Tests/check.lua"
+    "test:shared": "node Tests/check-requires.js && fengari Tests/run-shared.lua",
+    "check:lua": "fengari Tests/check.lua",
+    "check:shared": "fengari Tests/check-shared.lua"
   },
   "devDependencies": {
     "fengari-node-cli": "^0.1.0"
