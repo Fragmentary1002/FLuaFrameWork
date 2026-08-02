@@ -3,6 +3,7 @@ local FTestHelper = require("Tests.TestHelper")
 local specs = {
     "Tests/Unit/FEventBusSpec.lua",
     "Tests/Unit/FStoreSpec.lua",
+    "Tests/Unit/FClassSpec.lua",
     "Tests/Unit/FLifecycleSpec.lua",
     "Tests/Unit/FBasePresenterSpec.lua",
     "Tests/Unit/FViewBinderSpec.lua",

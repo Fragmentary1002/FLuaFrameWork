@@ -1,9 +1,10 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
-local FUnityRuntime = {}
-FUnityRuntime.__index = FUnityRuntime
+local FUnityRuntime = Class("FUnityRuntime")
 
-function FUnityRuntime.new(bridge)
-    return setmetatable({ platform = "unity", bridge = bridge }, FUnityRuntime)
+function FUnityRuntime:ctor(bridge)
+    self.platform = "unity"
+    self.bridge = bridge
 end
 
 function FUnityRuntime:load_view(asset, callback)

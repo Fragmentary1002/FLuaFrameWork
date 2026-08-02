@@ -2,7 +2,7 @@ local FTestHelper = require("Tests.TestHelper")
 local FEventBus = require("LuaUIFramework.Shared.Events.FEventBus")
 
 FTestHelper:test("event subscribers receive emitted arguments", function()
-    local bus = FEventBus.new()
+    local bus = FEventBus:new()
     local received_name = nil
     local received_amount = nil
 
@@ -17,7 +17,7 @@ FTestHelper:test("event subscribers receive emitted arguments", function()
 end)
 
 FTestHelper:test("event unsubscribe is idempotent and stops notifications", function()
-    local bus = FEventBus.new()
+    local bus = FEventBus:new()
     local count = 0
     local subscription = bus:subscribe("changed", function()
         count = count + 1
@@ -32,7 +32,7 @@ FTestHelper:test("event unsubscribe is idempotent and stops notifications", func
 end)
 
 FTestHelper:test("event owner can unsubscribe all owned bindings", function()
-    local bus = FEventBus.new()
+    local bus = FEventBus:new()
     local owner = {}
     local owned_count = 0
     local other_count = 0
@@ -50,7 +50,7 @@ FTestHelper:test("event owner can unsubscribe all owned bindings", function()
 end)
 
 FTestHelper:test("duplicate event binding is rejected with a unified error", function()
-    local bus = FEventBus.new()
+    local bus = FEventBus:new()
     local owner = {}
     local callback = function() end
 
@@ -60,4 +60,3 @@ FTestHelper:test("duplicate event binding is rejected with a unified error", fun
         bus:subscribe("changed", callback, owner)
     end)
 end)
-

@@ -134,3 +134,30 @@ FTestHelper:test("destructor errors propagate once and leave the object destroye
     FTestHelper:assert_false(value:destroy())
     FTestHelper:assert_equal(1, calls)
 end)
+
+FTestHelper:test("class dispatches tostring to the concrete class", function()
+    local Value = Class("Value")
+    function Value:ctor(text) self.text = text end
+    function Value:__tostring() return "Value(" .. self.text .. ")" end
+    FTestHelper:assert_equal("Value(ok)", tostring(Value:new("ok")))
+end)
+
+FTestHelper:test("class-defined methods override default object methods while alive", function()
+    local View = Class("View")
+    function View:ctor() self.calls = 0 end
+    function View:destroy()
+        self.calls = self.calls + 1
+        return "custom"
+    end
+    local view = View:new()
+    FTestHelper:assert_equal("custom", view:destroy())
+    FTestHelper:assert_equal(1, view.calls)
+    FTestHelper:assert_false(view:is_destroyed())
+end)
+
+FTestHelper:test("class validation still raises structured errors through lazy FError loading", function()
+    local succeeded, failure = pcall(function() Class("") end)
+    FTestHelper:assert_false(succeeded)
+    FTestHelper:assert_equal("INVALID_CLASS_NAME", failure.code)
+    FTestHelper:assert_equal("[INVALID_CLASS_NAME] class name must be a non-empty string", tostring(failure))
+end)

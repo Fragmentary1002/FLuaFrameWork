@@ -1,21 +1,19 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FError = require("LuaUIFramework.Shared.Core.FError")
-local FIView = {}
-FIView.__index = FIView
+local FIView = Class("FIView")
 
-function FIView.new(page, platform, native, root_ops, widgets)
-    return setmetatable({
-        page = page,
-        platform = platform,
-        native = native,
-        root_ops = root_ops,
-        widgets = widgets,
-        destroyed = false,
-    }, FIView)
+function FIView:ctor(page, platform, native, root_ops, widgets)
+    self.page = page
+    self.platform = platform
+    self.native = native
+    self.root_ops = root_ops
+    self.widgets = widgets
+    self.destroyed = false
 end
 
 function FIView:_assert_valid()
     if self.destroyed or self.native == nil or self.root_ops.is_valid() ~= true then
-        error(FError.new("NATIVE_OBJECT_INVALID", "native view is no longer valid", {
+        error(FError:new("NATIVE_OBJECT_INVALID", "native view is no longer valid", {
             page = self.page, platform = self.platform,
         }), 0)
     end
@@ -25,7 +23,7 @@ function FIView:_get(id, expected)
     self:_assert_valid()
     local entry = self.widgets[id]
     if entry == nil or entry.kind ~= expected then
-        error(FError.new("BINDING_TYPE_MISMATCH", "view binding was requested with the wrong type", {
+        error(FError:new("BINDING_TYPE_MISMATCH", "view binding was requested with the wrong type", {
             page = self.page, platform = self.platform, binding = id,
             expected = expected, actual = entry and entry.kind or nil,
         }), 0)

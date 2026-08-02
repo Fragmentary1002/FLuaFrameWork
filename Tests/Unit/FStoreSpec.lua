@@ -6,7 +6,7 @@ local FValidation = require("LuaUIFramework.Shared.Utils.FValidation")
 
 FTestHelper:test("unified errors expose code message context and tostring", function()
     local context = { field = "account" }
-    local err = FError.new("REQUIRED", "account is required", context)
+    local err = FError:new("REQUIRED", "account is required", context)
 
     FTestHelper:assert_equal("REQUIRED", err.code)
     FTestHelper:assert_equal("account is required", err.message)
@@ -16,7 +16,7 @@ FTestHelper:test("unified errors expose code message context and tostring", func
 end)
 
 FTestHelper:test("store gets and sets values", function()
-    local store = FStore.new({ coins = 1 })
+    local store = FStore:new({ coins = 1 })
     FTestHelper:assert_equal(1, store:get("coins"))
 
     store:set("coins", 2)
@@ -24,7 +24,7 @@ FTestHelper:test("store gets and sets values", function()
 end)
 
 FTestHelper:test("store notifies only when a value changes", function()
-    local store = FStore.new({ coins = 1 })
+    local store = FStore:new({ coins = 1 })
     local calls = 0
     local new_value = nil
     local old_value = nil
@@ -43,7 +43,7 @@ FTestHelper:test("store notifies only when a value changes", function()
 end)
 
 FTestHelper:test("store subscription unsubscribe is idempotent", function()
-    local store = FStore.new()
+    local store = FStore:new()
     local calls = 0
     local subscription = store:subscribe("coins", function()
         calls = calls + 1
@@ -57,7 +57,7 @@ FTestHelper:test("store subscription unsubscribe is idempotent", function()
 end)
 
 FTestHelper:test("store update applies a pure updater", function()
-    local store = FStore.new({ coins = 2 })
+    local store = FStore:new({ coins = 2 })
     local updater_input = nil
 
     local result = store:update("coins", function(current)
@@ -72,7 +72,7 @@ end)
 
 FTestHelper:test("command executes when can_execute allows it", function()
     local received = nil
-    local command = FCommand.new(function(value)
+    local command = FCommand:new(function(value)
         received = value
         return value * 2
     end, function(value)
@@ -86,7 +86,7 @@ end)
 
 FTestHelper:test("command does not execute when can_execute rejects it", function()
     local calls = 0
-    local command = FCommand.new(function()
+    local command = FCommand:new(function()
         calls = calls + 1
     end, function()
         return false
@@ -98,7 +98,7 @@ FTestHelper:test("command does not execute when can_execute rejects it", functio
 end)
 
 FTestHelper:test("validation required rejects empty values", function()
-    local validation = FValidation.new()
+    local validation = FValidation:new()
     local required = validation:required("value is required")
 
     local valid, message = required("")
@@ -108,7 +108,7 @@ FTestHelper:test("validation required rejects empty values", function()
 end)
 
 FTestHelper:test("validation min_length rejects short strings", function()
-    local validation = FValidation.new()
+    local validation = FValidation:new()
     local min_length = validation:min_length(3, "too short")
 
     local valid, message = min_length("ab")
@@ -118,7 +118,7 @@ FTestHelper:test("validation min_length rejects short strings", function()
 end)
 
 FTestHelper:test("validation combine returns the first failure", function()
-    local validation = FValidation.new()
+    local validation = FValidation:new()
     local validate = validation:combine(
         validation:required("required"),
         validation:min_length(3, "too short")
@@ -133,4 +133,3 @@ FTestHelper:test("validation combine returns the first failure", function()
     FTestHelper:assert_equal("too short", message)
     FTestHelper:assert_true(validate("abc"))
 end)
-

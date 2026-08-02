@@ -1,21 +1,16 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FError = require("LuaUIFramework.Shared.Core.FError")
 
-local FBasePresenter = {}
-FBasePresenter.__index = FBasePresenter
+local FBasePresenter = Class("FBasePresenter")
 
-function FBasePresenter.new()
-    return setmetatable({ subscriptions = {}, unbound = false }, FBasePresenter)
-end
-
-function FBasePresenter.initialize(instance)
-    instance.subscriptions = {}
-    instance.unbound = false
-    return instance
+function FBasePresenter:ctor()
+    self.subscriptions = {}
+    self.unbound = false
 end
 
 function FBasePresenter:track(subscription)
     if type(subscription) ~= "table" or type(subscription.unsubscribe) ~= "function" then
-        error(FError.new("INVALID_SUBSCRIPTION", "subscription must expose unsubscribe", {}), 0)
+        error(FError:new("INVALID_SUBSCRIPTION", "subscription must expose unsubscribe", {}), 0)
     end
     table.insert(self.subscriptions, subscription)
     return subscription

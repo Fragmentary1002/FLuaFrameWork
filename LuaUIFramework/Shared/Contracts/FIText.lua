@@ -1,11 +1,6 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
-local FIText = {}
-FIText.__index = FIText
-setmetatable(FIText, { __index = FIWidget })
-
-function FIText.new(id, native, ops)
-    return setmetatable(FIWidget.new(id, native, ops), FIText)
-end
+local FIText = Class("FIText", FIWidget)
 
 function FIText:set_text(value)
     self:_assert_valid()

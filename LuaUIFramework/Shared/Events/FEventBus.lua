@@ -1,12 +1,10 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FError = require("LuaUIFramework.Shared.Core.FError")
 
-local FEventBus = {}
-FEventBus.__index = FEventBus
+local FEventBus = Class("FEventBus")
 
-function FEventBus.new()
-    return setmetatable({
-        listeners = {},
-    }, FEventBus)
+function FEventBus:ctor()
+    self.listeners = {}
 end
 
 local function remove_binding(bus, binding)
@@ -41,7 +39,7 @@ function FEventBus:subscribe(event_name, callback, owner)
 
     for _, binding in ipairs(event_listeners) do
         if binding.active and binding.callback == callback and binding.owner == owner then
-            error(FError.new(
+            error(FError:new(
                 "DUPLICATE_EVENT_BINDING",
                 "the callback is already subscribed to this event for the same owner",
                 { event_name = event_name, owner = owner }
@@ -100,4 +98,3 @@ function FEventBus:unsubscribe_owner(owner)
 end
 
 return FEventBus
-

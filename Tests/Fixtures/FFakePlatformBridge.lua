@@ -1,8 +1,10 @@
-local FFakePlatformBridge = {}
-FFakePlatformBridge.__index = FFakePlatformBridge
+local Class = require("LuaUIFramework.Shared.Core.FClass")
+local FFakePlatformBridge = Class("FFakePlatformBridge")
 
-function FFakePlatformBridge.new(platform)
-    return setmetatable({ platform = platform, pending = {}, destroyed = 0 }, FFakePlatformBridge)
+function FFakePlatformBridge:ctor(platform)
+    self.platform = platform
+    self.pending = {}
+    self.destroyed = 0
 end
 
 function FFakePlatformBridge:make_native_view()

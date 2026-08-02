@@ -1,18 +1,16 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FError = require("LuaUIFramework.Shared.Core.FError")
 local FLifecycle = require("LuaUIFramework.Shared.Core.FLifecycle")
 
-local FUIManager = {}
-FUIManager.__index = FUIManager
+local FUIManager = Class("FUIManager")
 
-function FUIManager.new(options)
-    return setmetatable({
-        runtime = options.runtime,
-        pages = options.pages,
-        services = options.services or {},
-        require_module = options.require_module or require,
-        instances = {},
-        next_request_version = 0,
-    }, FUIManager)
+function FUIManager:ctor(options)
+    self.runtime = options.runtime
+    self.pages = options.pages
+    self.services = options.services or {}
+    self.require_module = options.require_module or require
+    self.instances = {}
+    self.next_request_version = 0
 end
 
 function FUIManager:get(page_name)
@@ -60,7 +58,7 @@ function FUIManager:_finish_open(instance, native_view, expected_version)
         )
         instance.lifecycle:transition_to("Created")
         local presenter_module = self.require_module(instance.definition.presenter)
-        instance.presenter = presenter_module.new(self.services)
+        instance.presenter = presenter_module:new(self.services)
         instance.presenter:on_create(instance.view, instance.params)
         instance.presenter:on_bind()
         instance.lifecycle:transition_to("Opened")
@@ -92,7 +90,7 @@ end
 function FUIManager:open(page_name, params)
     local definition = self.pages[page_name]
     if definition == nil then
-        error(FError.new("PAGE_NOT_REGISTERED", "page is not registered", { page = page_name }), 0)
+        error(FError:new("PAGE_NOT_REGISTERED", "page is not registered", { page = page_name }), 0)
     end
     local existing = self.instances[page_name]
     if existing ~= nil and definition.singleton then
@@ -100,7 +98,7 @@ function FUIManager:open(page_name, params)
     end
     local asset = definition.assets[self.runtime.platform]
     if asset == nil then
-        error(FError.new("ASSET_LOAD_FAILED", "page has no asset for the active platform", {
+        error(FError:new("ASSET_LOAD_FAILED", "page has no asset for the active platform", {
             page = page_name, platform = self.runtime.platform,
         }), 0)
     end
@@ -109,7 +107,7 @@ function FUIManager:open(page_name, params)
     local instance = {
         name = page_name,
         definition = definition,
-        lifecycle = FLifecycle.new(),
+        lifecycle = FLifecycle:new(),
         request_version = self.next_request_version,
         params = params or {},
     }

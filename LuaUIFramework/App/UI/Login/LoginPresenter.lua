@@ -1,11 +1,9 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FBasePresenter = require("LuaUIFramework.Shared.Core.FBasePresenter")
-local LoginPresenter = {}
-LoginPresenter.__index = LoginPresenter
-setmetatable(LoginPresenter, { __index = FBasePresenter })
+local LoginPresenter = Class("LoginPresenter", FBasePresenter)
 
-function LoginPresenter.new(services)
-    local instance = FBasePresenter.initialize({ services = services })
-    return setmetatable(instance, LoginPresenter)
+function LoginPresenter:ctor(services)
+    self.services = services
 end
 
 function LoginPresenter:on_create(view, params)

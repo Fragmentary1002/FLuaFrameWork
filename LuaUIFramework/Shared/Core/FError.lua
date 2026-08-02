@@ -1,12 +1,10 @@
-local FError = {}
-FError.__index = FError
+local Class = require("LuaUIFramework.Shared.Core.FClass")
+local FError = Class("FError")
 
-function FError.new(code, message, context)
-    return setmetatable({
-        code = code,
-        message = message,
-        context = context,
-    }, FError)
+function FError:ctor(code, message, context)
+    self.code = code
+    self.message = message
+    self.context = context
 end
 
 function FError:__tostring()
@@ -14,4 +12,3 @@ function FError:__tostring()
 end
 
 return FError
-

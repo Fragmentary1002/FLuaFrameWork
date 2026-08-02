@@ -1,5 +1,3 @@
-local FError = require("LuaUIFramework.Shared.Core.FError")
-
 local FClass = {}
 local class_info = setmetatable({}, { __mode = "k" })
 local instance_info = setmetatable({}, { __mode = "k" })
@@ -7,7 +5,8 @@ local class_methods = {}
 local object_methods = {}
 
 local function raise(code, message, context)
-    error(FError.new(code, message, context or {}), 0)
+    local FError = require("LuaUIFramework.Shared.Core.FError")
+    error(FError:new(code, message, context or {}), 0)
 end
 
 local function assert_class(value, code)
@@ -44,22 +43,40 @@ local function find_instance_member(class, key)
 end
 
 local function instance_index(instance, key)
+    local info = instance_info[instance]
+    if not info.destroyed then
+        local member = find_instance_member(info.class, key)
+        if member ~= nil then
+            return member
+        end
+    end
+
     local method = object_methods[key]
     if method ~= nil then
         return method
     end
-
-    local info = instance_info[instance]
     if info.destroyed then
         raise("OBJECT_DESTROYED", "cannot access a method on a destroyed object", {
             class = class_info[info.class].name,
             member = key,
         })
     end
-    return find_instance_member(info.class, key)
+    return nil
 end
 
-local instance_metatable = { __index = instance_index }
+local function instance_tostring(instance)
+    local info = instance_info[instance]
+    local handler = find_instance_member(info.class, "__tostring")
+    if type(handler) == "function" then
+        return handler(instance)
+    end
+    return "<" .. class_info[info.class].name .. ">"
+end
+
+local instance_metatable = {
+    __index = instance_index,
+    __tostring = instance_tostring,
+}
 
 function class_methods:new(...)
     assert_class(self)

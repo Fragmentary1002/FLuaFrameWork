@@ -4,7 +4,7 @@
 
 ## Unreal bridge
 
-UnLua 宿主向 `FUnrealRuntime.new(bridge)` 注入：
+UnLua 宿主向 `FUnrealRuntime:new(bridge)` 注入：
 
 - `load_widget(asset, callback) -> { cancel = function }`
 - `find_widget(root, logical_id) -> UWidget|nil`
@@ -15,7 +15,7 @@ UnLua 宿主向 `FUnrealRuntime.new(bridge)` 注入：
 
 ## Unity bridge
 
-xLua 宿主向 `FUnityRuntime.new(bridge)` 注入：
+xLua 宿主向 `FUnityRuntime:new(bridge)` 注入：
 
 - `load_prefab(asset, callback) -> { cancel = function }`
 - `find_component(root, logical_id) -> Component|nil`

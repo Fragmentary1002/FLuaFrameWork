@@ -1,23 +1,22 @@
 local FTestHelper = require("Tests.TestHelper")
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FFakePlatformBridge = require("Tests.Fixtures.FFakePlatformBridge")
 local FUnrealRuntime = require("LuaUIFramework.Adapters.Unreal.FUnrealRuntime")
 local FUIManager = require("LuaUIFramework.Shared.Core.FUIManager")
 
 local function presenter_module(events)
-    return { new = function()
-        local presenter = {}
-        for _, name in ipairs({ "create", "bind", "open", "show", "hide", "close", "unbind", "destroy" }) do
-            presenter["on_" .. name] = function() table.insert(events, name) end
-        end
-        return presenter
-    end }
+    local FakePresenter = Class("FakePresenter")
+    for _, name in ipairs({ "create", "bind", "open", "show", "hide", "close", "unbind", "destroy" }) do
+        FakePresenter["on_" .. name] = function() table.insert(events, name) end
+    end
+    return FakePresenter
 end
 
 local function make_manager()
-    local fake = FFakePlatformBridge.new("unreal")
+    local fake = FFakePlatformBridge:new("unreal")
     local events = {}
-    local manager = FUIManager.new({
-        runtime = FUnrealRuntime.new(fake:as_unreal()),
+    local manager = FUIManager:new({
+        runtime = FUnrealRuntime:new(fake:as_unreal()),
         pages = { LoginPanel = {
             presenter = "FakePresenter", singleton = true, cachePolicy = "DestroyOnClose",
             assets = { unreal = "WBP_LoginPanel" }, requiredBindings = {

@@ -1,7 +1,7 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FError = require("LuaUIFramework.Shared.Core.FError")
 
-local FLifecycle = {}
-FLifecycle.__index = FLifecycle
+local FLifecycle = Class("FLifecycle")
 
 local transitions = {
     Unloaded = { Loading = true },
@@ -13,8 +13,8 @@ local transitions = {
     Destroyed = {},
 }
 
-function FLifecycle.new()
-    return setmetatable({ state = "Unloaded" }, FLifecycle)
+function FLifecycle:ctor()
+    self.state = "Unloaded"
 end
 
 function FLifecycle:get_state()
@@ -23,7 +23,7 @@ end
 
 function FLifecycle:transition_to(next_state)
     if transitions[self.state] == nil or transitions[self.state][next_state] ~= true then
-        error(FError.new(
+        error(FError:new(
             "INVALID_LIFECYCLE_TRANSITION",
             string.format("cannot transition page lifecycle from %s to %s", self.state, tostring(next_state)),
             { from = self.state, to = next_state }

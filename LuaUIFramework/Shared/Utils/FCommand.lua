@@ -1,11 +1,9 @@
-local FCommand = {}
-FCommand.__index = FCommand
+local Class = require("LuaUIFramework.Shared.Core.FClass")
+local FCommand = Class("FCommand")
 
-function FCommand.new(execute, can_execute)
-    return setmetatable({
-        execute_callback = execute,
-        can_execute_callback = can_execute,
-    }, FCommand)
+function FCommand:ctor(execute, can_execute)
+    self.execute_callback = execute
+    self.can_execute_callback = can_execute
 end
 
 function FCommand:can_execute(...)
@@ -23,4 +21,3 @@ function FCommand:execute(...)
 end
 
 return FCommand
-

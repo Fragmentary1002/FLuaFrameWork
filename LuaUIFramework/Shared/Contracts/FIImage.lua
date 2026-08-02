@@ -1,11 +1,6 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
-local FIImage = {}
-FIImage.__index = FIImage
-setmetatable(FIImage, { __index = FIWidget })
-
-function FIImage.new(id, native, ops)
-    return setmetatable(FIWidget.new(id, native, ops), FIImage)
-end
+local FIImage = Class("FIImage", FIWidget)
 
 function FIImage:set_source(source)
     self:_assert_valid()

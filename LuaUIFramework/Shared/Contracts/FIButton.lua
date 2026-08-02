@@ -1,11 +1,6 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
-local FIButton = {}
-FIButton.__index = FIButton
-setmetatable(FIButton, { __index = FIWidget })
-
-function FIButton.new(id, native, ops)
-    return setmetatable(FIWidget.new(id, native, ops), FIButton)
-end
+local FIButton = Class("FIButton", FIWidget)
 
 function FIButton:on_click(callback)
     self:_assert_valid()

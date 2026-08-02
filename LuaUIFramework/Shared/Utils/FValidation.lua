@@ -1,9 +1,5 @@
-local FValidation = {}
-FValidation.__index = FValidation
-
-function FValidation.new()
-    return setmetatable({}, FValidation)
-end
+local Class = require("LuaUIFramework.Shared.Core.FClass")
+local FValidation = Class("FValidation")
 
 function FValidation:required(message)
     return function(value)
@@ -37,4 +33,3 @@ function FValidation:combine(...)
 end
 
 return FValidation
-

@@ -1,4 +1,5 @@
 local modules = {
+    "LuaUIFramework.Shared.Core.FClass",
     "LuaUIFramework.Shared.Core.FError",
     "LuaUIFramework.Shared.Core.FBasePresenter",
     "LuaUIFramework.Shared.Core.FLifecycle",

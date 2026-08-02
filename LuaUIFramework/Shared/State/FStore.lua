@@ -1,16 +1,12 @@
-local FStore = {}
-FStore.__index = FStore
+local Class = require("LuaUIFramework.Shared.Core.FClass")
+local FStore = Class("FStore")
 
-function FStore.new(initial_values)
-    local values = {}
+function FStore:ctor(initial_values)
+    self.values = {}
     for key, value in pairs(initial_values or {}) do
-        values[key] = value
+        self.values[key] = value
     end
-
-    return setmetatable({
-        values = values,
-        subscribers = {},
-    }, FStore)
+    self.subscribers = {}
 end
 
 function FStore:get(key)
@@ -76,4 +72,3 @@ function FStore:subscribe(key, callback)
 end
 
 return FStore
-

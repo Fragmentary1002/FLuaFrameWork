@@ -1,9 +1,10 @@
+local Class = require("LuaUIFramework.Shared.Core.FClass")
 local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
-local FUnrealRuntime = {}
-FUnrealRuntime.__index = FUnrealRuntime
+local FUnrealRuntime = Class("FUnrealRuntime")
 
-function FUnrealRuntime.new(bridge)
-    return setmetatable({ platform = "unreal", bridge = bridge }, FUnrealRuntime)
+function FUnrealRuntime:ctor(bridge)
+    self.platform = "unreal"
+    self.bridge = bridge
 end
 
 function FUnrealRuntime:load_view(asset, callback)

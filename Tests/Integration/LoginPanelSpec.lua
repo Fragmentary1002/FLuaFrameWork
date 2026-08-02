@@ -12,10 +12,10 @@ local cases = {
 
 for _, case in ipairs(cases) do
     FTestHelper:test("LoginPresenter completes login on " .. case.platform, function()
-        local fake = FFakePlatformBridge.new(case.platform)
+        local fake = FFakePlatformBridge:new(case.platform)
         local service_calls = 0
-        local manager = FUIManager.new({
-            runtime = case.runtime.new(fake[case.bridge](fake)),
+        local manager = FUIManager:new({
+            runtime = case.runtime:new(fake[case.bridge](fake)),
             pages = pages,
             services = { login = function(account)
                 service_calls = service_calls + 1
