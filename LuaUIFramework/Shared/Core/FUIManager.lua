@@ -1,8 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FLifecycle = require("LuaUIFramework.Shared.Core.FLifecycle")
-
-local FUIManager = Class("FUIManager")
+local FUIManager = FClass("FUIManager")
 
 function FUIManager:ctor(options)
     self.runtime = options.runtime

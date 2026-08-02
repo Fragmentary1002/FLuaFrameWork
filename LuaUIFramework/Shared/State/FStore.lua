@@ -1,5 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FStore = Class("FStore")
+local FStore = FClass("FStore")
 
 function FStore:ctor(initial_values)
     self.values = {}

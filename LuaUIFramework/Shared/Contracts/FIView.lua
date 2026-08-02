@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FIView = Class("FIView")
+local FIView = FClass("FIView")
 
 function FIView:ctor(page, platform, native, root_ops, widgets)
     self.page = page

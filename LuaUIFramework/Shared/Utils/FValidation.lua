@@ -1,5 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FValidation = Class("FValidation")
+local FValidation = FClass("FValidation")
 
 function FValidation:required(message)
     return function(value)

@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FIWidget = Class("FIWidget")
+local FIWidget = FClass("FIWidget")
 
 function FIWidget:ctor(id, native, ops)
     self.id = id

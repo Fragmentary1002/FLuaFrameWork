@@ -1,7 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-
-local FLifecycle = Class("FLifecycle")
+local FLifecycle = FClass("FLifecycle")
 
 local transitions = {
     Unloaded = { Loading = true },

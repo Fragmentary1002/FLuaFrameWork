@@ -1,5 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FCommand = Class("FCommand")
+local FCommand = FClass("FCommand")
 
 function FCommand:ctor(execute, can_execute)
     self.execute_callback = execute

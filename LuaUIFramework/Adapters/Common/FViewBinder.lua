@@ -1,9 +1,3 @@
-local FError = require("LuaUIFramework.Shared.Core.FError")
-local FIText = require("LuaUIFramework.Shared.Contracts.FIText")
-local FIButton = require("LuaUIFramework.Shared.Contracts.FIButton")
-local FIImage = require("LuaUIFramework.Shared.Contracts.FIImage")
-local FIView = require("LuaUIFramework.Shared.Contracts.FIView")
-
 local FViewBinder = {}
 local factories = {
     Text = function(...) return FIText:new(...) end,

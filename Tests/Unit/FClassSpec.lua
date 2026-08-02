@@ -155,7 +155,7 @@ FTestHelper:test("class-defined methods override default object methods while al
     FTestHelper:assert_false(view:is_destroyed())
 end)
 
-FTestHelper:test("class validation still raises structured errors through lazy FError loading", function()
+FTestHelper:test("class validation raises structured errors through registered FError", function()
     local succeeded, failure = pcall(function() Class("") end)
     FTestHelper:assert_false(succeeded)
     FTestHelper:assert_equal("INVALID_CLASS_NAME", failure.code)

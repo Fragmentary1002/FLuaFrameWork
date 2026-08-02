@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
-local FIText = Class("FIText", FIWidget)
+local FIText = FClass("FIText", FIWidget)
 
 function FIText:set_text(value)
     self:_assert_valid()

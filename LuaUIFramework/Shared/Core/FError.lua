@@ -1,5 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = Class("FError")
+local FError = FClass("FError")
 
 function FError:ctor(code, message, context)
     self.code = code

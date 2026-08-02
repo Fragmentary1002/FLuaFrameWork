@@ -2,6 +2,16 @@
 
 阶段一提供跨 Unreal/Unity 的 Lua UI 最小闭环。共享代码不能引用 `UE.*`、`CS.*` 或 `UnityEngine.*`。
 
+## 启动
+
+宿主必须在加载任何框架或业务模块之前执行：
+
+```lua
+require("LuaUIFramework.register")
+```
+
+Register 会一次性加载通用框架模块，并注册 `FClass`、`FError`、`FUIManager`、平台 Runtime 等全局变量。其他框架和业务模块依赖这些全局变量，不再自行加载框架依赖。
+
 ## Unreal bridge
 
 UnLua 宿主向 `FUnrealRuntime:new(bridge)` 注入：

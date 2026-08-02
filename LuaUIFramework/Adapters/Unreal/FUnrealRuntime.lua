@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
-local FUnrealRuntime = Class("FUnrealRuntime")
+local FUnrealRuntime = FClass("FUnrealRuntime")
 
 function FUnrealRuntime:ctor(bridge)
     self.platform = "unreal"

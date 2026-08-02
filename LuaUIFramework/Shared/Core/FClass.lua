@@ -5,7 +5,6 @@ local class_methods = {}
 local object_methods = {}
 
 local function raise(code, message, context)
-    local FError = require("LuaUIFramework.Shared.Core.FError")
     error(FError:new(code, message, context or {}), 0)
 end
 

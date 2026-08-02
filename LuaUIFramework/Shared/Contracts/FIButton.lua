@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FIWidget = require("LuaUIFramework.Shared.Contracts.FIWidget")
-local FIButton = Class("FIButton", FIWidget)
+local FIButton = FClass("FIButton", FIWidget)
 
 function FIButton:on_click(callback)
     self:_assert_valid()

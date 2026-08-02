@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FBasePresenter = require("LuaUIFramework.Shared.Core.FBasePresenter")
-local LoginPresenter = Class("LoginPresenter", FBasePresenter)
+local LoginPresenter = FClass("LoginPresenter", FBasePresenter)
 
 function LoginPresenter:ctor(services)
     self.services = services

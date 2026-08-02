@@ -1,6 +1,8 @@
+require("LuaUIFramework.register")
 local FTestHelper = require("Tests.TestHelper")
 
 local specs = {
+    "Tests/Unit/FRegisterSpec.lua",
     "Tests/Unit/FEventBusSpec.lua",
     "Tests/Unit/FStoreSpec.lua",
     "Tests/Unit/FClassSpec.lua",

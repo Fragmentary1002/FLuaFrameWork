@@ -1,7 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-
-local FBasePresenter = Class("FBasePresenter")
+local FBasePresenter = FClass("FBasePresenter")
 
 function FBasePresenter:ctor()
     self.subscriptions = {}

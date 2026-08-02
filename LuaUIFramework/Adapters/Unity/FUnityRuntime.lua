@@ -1,6 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FViewBinder = require("LuaUIFramework.Adapters.Common.FViewBinder")
-local FUnityRuntime = Class("FUnityRuntime")
+local FUnityRuntime = FClass("FUnityRuntime")
 
 function FUnityRuntime:ctor(bridge)
     self.platform = "unity"

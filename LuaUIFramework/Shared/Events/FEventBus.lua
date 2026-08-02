@@ -1,7 +1,4 @@
-local Class = require("LuaUIFramework.Shared.Core.FClass")
-local FError = require("LuaUIFramework.Shared.Core.FError")
-
-local FEventBus = Class("FEventBus")
+local FEventBus = FClass("FEventBus")
 
 function FEventBus:ctor()
     self.listeners = {}
