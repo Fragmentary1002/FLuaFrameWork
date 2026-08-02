@@ -1,0 +1,12 @@
+{
+  "name": "flua-ui-framework",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "fengari Tests/run.lua",
+    "check:lua": "fengari Tests/check.lua"
+  },
+  "devDependencies": {
+    "fengari-node-cli": "^0.1.0"
+  }
+}
