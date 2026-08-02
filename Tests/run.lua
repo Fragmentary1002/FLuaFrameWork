@@ -3,6 +3,7 @@ local FTestHelper = require("Tests.TestHelper")
 
 local specs = {
     "Tests/Unit/FRegisterSpec.lua",
+    "Tests/Unit/FInitSpec.lua",
     "Tests/Unit/FEventBusSpec.lua",
     "Tests/Unit/FStoreSpec.lua",
     "Tests/Unit/FClassSpec.lua",
@@ -12,6 +13,7 @@ local specs = {
     "Tests/Contract/FRuntimeContractSpec.lua",
     "Tests/Integration/FUIManagerSpec.lua",
     "Tests/Integration/LoginPanelSpec.lua",
+    "Tests/Integration/FMainSpec.lua",
 }
 
 for _, spec_path in ipairs(specs) do

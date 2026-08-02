@@ -4,13 +4,20 @@
 
 ## 启动
 
-宿主必须在加载任何框架或业务模块之前执行：
+宿主通过根目录 `main.lua` 启动框架：
 
 ```lua
-require("FLuaFramework.register")
+local main = require("main")
+
+local manager = main.start({
+    platform = "unreal", -- 或 "unity"
+    bridge = platform_bridge,
+    services = services,
+    params = { account = "alice" },
+})
 ```
 
-Register 会一次性加载通用框架模块，并注册 `FClass`、`FError`、`FUIManager`、平台 Runtime 等全局变量。其他框架和业务模块依赖这些全局变量，不再自行加载框架依赖。
+`main.start` 会通过 `init.lua` 加载 `FLuaFramework.register`、创建对应平台的 Runtime 与 `FUIManager`，然后自动打开 `LoginPanel` 并返回 Manager。Register 会一次性加载通用框架模块，并注册 `FClass`、`FError`、`FUIManager`、平台 Runtime 等全局变量；其他框架和业务模块依赖这些全局变量，不再自行加载框架依赖。
 
 ## Unreal bridge
 
