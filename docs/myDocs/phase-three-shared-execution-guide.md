@@ -139,7 +139,7 @@ git diff --name-only -- FLuaFramework/Adapters Tests/Contract Tests/Integration 
 只有同时满足以下条件，阶段三才算完成：
 
 - Shared-only 两个命令达到目标结果；
-- Adapter 范围检查无输出；
+- Adapter 范围检查无输出；+ 
 - Presenter 能对称释放订阅、请求和资源；
 - 本地化和状态恢复由纯 Lua 单元测试覆盖；
 - Loading 页面连续导航不会产生同时可见的旧页面；
